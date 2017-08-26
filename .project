@@ -3,6 +3,7 @@
 	<name>BattleField-warriors</name>
 	<comment></comment>
 	<projects>
+		<project>BattleField-IA</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
