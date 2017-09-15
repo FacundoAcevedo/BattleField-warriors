@@ -13,8 +13,10 @@ public class Cthulhu extends Warrior {
 
 	@Override
 	public Action playTurn(long tick, int actionNumber) {
-		// TODO Auto-generated method stub
-		return null;
+		// vamos a buscar al enemigo <-
+		// si esta en un rango disparable, lo hago
+		// si el hunter esta cerca cambio a escape?
+		
 	}
 
 	@Override
