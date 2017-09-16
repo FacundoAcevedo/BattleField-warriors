@@ -1,13 +1,18 @@
+import ia.battle.core.FieldCell;
+
 public class Node {
 	private float g;
 	private int h;
+	private FieldCell fieldCell;
 	private Node parent;
 
 	private int x, y;
 	
-	public Node(int x, int y) {
+	public Node(int x, int y, FieldCell fieldCell) {
 		this.x = x;
 		this.y = y;
+		this.setFieldCell(fieldCell);
+		this.g = fieldCell.getCost();
 	}
 	
 	public float getF() {
@@ -18,7 +23,7 @@ public class Node {
 		return g;
 	}
 
-	public void setG(int g) {
+	public void setG(float g) {
 		this.g = g;
 	}
 
@@ -55,4 +60,13 @@ public class Node {
 	public String toString() {
 		return "[" + x + ", " + y + "]";
 	}
+
+	public FieldCell getFieldCell() {
+		return fieldCell;
+	}
+
+	public void setFieldCell(FieldCell fieldCell) {
+		this.fieldCell = fieldCell;
+	}
+
 }
