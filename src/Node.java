@@ -1,5 +1,5 @@
 public class Node {
-	private int g;
+	private float g;
 	private int h;
 	private Node parent;
 
@@ -10,11 +10,11 @@ public class Node {
 		this.y = y;
 	}
 	
-	public int getF() {
+	public float getF() {
 		return g + h;
 	}
 
-	public int getG() {
+	public float getG() {
 		return g;
 	}
 
