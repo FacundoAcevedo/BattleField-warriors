@@ -8,11 +8,12 @@ public class Node {
 
 	private int x, y;
 	
-	public Node(int x, int y, FieldCell fieldCell) {
-		this.x = x;
-		this.y = y;
+	public Node( FieldCell fieldCell) {
+	
 		this.setFieldCell(fieldCell);
 		this.g = fieldCell.getCost();
+		this.x = fieldCell.getX();
+		this.y = fieldCell.getY();
 	}
 	
 	public float getF() {

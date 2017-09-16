@@ -17,7 +17,7 @@ public class Lovecraft extends WarriorManager {
 		Warrior w;
 		
 		
-		w = new Cthulhu("El Barbaro", 20, 20, 20, 20, 20);
+		w = new Cthulhu("El tulazo", 20, 20, 20, 20, 20);
 		
 		
 		warriorsEnviados++;
