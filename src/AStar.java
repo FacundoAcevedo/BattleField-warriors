@@ -22,12 +22,12 @@ public class AStar {
 	public ArrayList<Node> findPath(FieldCell origen, FieldCell destino) {
 		// Enuentra la ruta entre dos puntos
 		// Devuelve La lista de nodos por la que pasa
-		
+
 		// defino un array de nodos ( Tipo nodo)
 		nodes = new ArrayList<Node>();
 		closedNodes = new ArrayList<Node>();
 		openNodes = new ArrayList<Node>();
-
+		LogFile.log("ENTRE ESTRELLITA");
 		//Obtengo todos los field Cells segun el alto y ancho del mapa
 		// alias de x
 		int ancho = ConfigurationManager.getInstance().getMapWidth();
@@ -49,18 +49,37 @@ public class AStar {
 			
 		//obtengo de la lista recien creada, el nodo de origen
 		origin = nodes.get(nodes.indexOf(new Node(origen)));
+		LogFile.log("ORIGEN: "+origin.toString());
 		
 		
 		//lo mismo pero el destino
 		destination = nodes.get(nodes.indexOf(new Node(destino)));
-
+		LogFile.log("DESTINO: "+destination.toString());
+		
 		//vamoas a iterar sobre currentNode
 		Node currentNode = origin;
+		//LE AGREGUE LA CONDICION DE I PARA QUE ITERE Y NO SIEMPRE ESTE EN EL MISMO.
+		int i = 1;
 		while (!currentNode.equals(destination)) {
 			processNode(currentNode);
 			currentNode = getMinFValueNode();
+			currentNode = nodes.get(i);
+			i++;
 		}
-
+		
+		//PARA MI EL QUILOMBO ESTA ACA ADENTRO
+		ArrayList<Node> nodes = retrievePath();
+		
+		//CREE ESTO PARA VER SI LOGUEA; PERO ES COMO QUE NUNCA LLEGA ACÁ
+		if(nodes.isEmpty())
+			LogFile.log("NODOS DEL PATH: VACIO");
+		else
+			LogFile.log("NODOS DEL PATH: NO VACIO");
+		
+		for(Node n : nodes) {
+			LogFile.log("PATH A SEGUIR: "+n.getFieldCell().toString());
+		}
+		
 		return retrievePath();
 	}
 
@@ -74,7 +93,6 @@ public class AStar {
 		}
 
 		Collections.reverse(path);
-
 		return path;
 	}
 

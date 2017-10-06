@@ -31,7 +31,6 @@ public class Cthulhu extends Warrior {
 		Action action = new Skip();
 		
 		
-		
 		int closerDistance = Integer.MAX_VALUE, distance;
 		
 		try {
@@ -54,24 +53,46 @@ public class Cthulhu extends Warrior {
 					LogFile.log(this.getName() + "parado en: "+ origen);
 					LogFile.log(targetWarrior.getName()+ " parado en:" + destino);
 					AStar estrellita = new AStar();
+					LogFile.log("PREVIO A LA ESTRELLITA");
 					ArrayList<Node> ruta = estrellita.findPath(origen, destino);
-
-					Node nodoNext = ruta.get(0);
+					//NUNCA LLEGA ACÁ
+					LogFile.log("PREVIO AL MOVE");
+					//ESTA ES LA ACCION PARA REALIZAR EL MOVIMIENTO
+					action = new Move(){
+						@Override
+						public ArrayList<FieldCell> move() {
+							LogFile.log("ENTRE AL MOVE");
+							ArrayList<FieldCell> miCamino = new ArrayList<>();
+							for(Node n : ruta) {
+								FieldCell f = n.getFieldCell();
+								miCamino.add(f);
+							}
+							
+							return miCamino;
+						}
+					};
 					
-					LogFile.log("Me muevo a: " + nodoNext.toString());
+					
+					/*
+					Node nodoNext = ruta.get(1);
+					
+					LogFile.log("Me muevo a: " + nodoNext.getY() + nodoNext.getX());
 
 
 
 					action = new CthulhuMove(nodoNext.getFieldCell());
-
-					return action;
+					*/
+					
+					
 
 				}
 			}
+			
+			return action;
 
 		} catch (RuleException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LogFile.log("ERROR: " +e.getMessage());
 		}
 
 		return action;
