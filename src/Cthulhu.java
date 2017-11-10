@@ -1,7 +1,9 @@
 import java.util.ArrayList;
-
+import java.util.Random;
 import ia.battle.core.BattleField;
+import ia.battle.core.ConfigurationManager;
 import ia.battle.core.FieldCell;
+import ia.battle.core.FieldCellType;
 import ia.battle.core.Warrior;
 import ia.battle.core.WarriorData;
 import ia.battle.core.WarriorManager;
@@ -9,6 +11,7 @@ import ia.battle.core.actions.Action;
 import ia.battle.core.actions.Attack;
 import ia.battle.core.actions.Move;
 import ia.battle.core.actions.Skip;
+import ia.battle.gui.BattleFieldSetup;
 import ia.exceptions.RuleException;
 
 public class Cthulhu extends Warrior {
@@ -38,30 +41,40 @@ public class Cthulhu extends Warrior {
 					ArrayList<FieldCell> caja = BattleField.getInstance().getSpecialItems();
 					AStarSingleton estrellita = AStarSingleton.getInstance();
 					ArrayList<FieldCell> ruta = estrellita.findPath(origen, destino);
-					//si tengo al hunter cerca...
-					if(BattleField.getInstance().getHunterData().getInRange()) {
-						action = new Move() {
-							@Override
-							public ArrayList<FieldCell> move() {
-								ArrayList<FieldCell> miCamino = new ArrayList<>();
-								//y hay cajas en el campo, la voy a buscar
-								if(!caja.isEmpty()) {
-									ArrayList<FieldCell> rutaCaja = estrellita.findPath(origen, caja.get(0));
-									for (FieldCell n : rutaCaja) {
-										miCamino.add(n);
-									}
-									return miCamino;
-								}
-								//sino rajo para otro lado.
-								else {
-									return null;
-								}
-							}
-						};
-					}
 					//si el enemigo esta en rango le da murra
-					else if(BattleField.getInstance().getEnemyData().getInRange()) {
+					if(BattleField.getInstance().getEnemyData().getInRange()) {
 						return new Attack(BattleField.getInstance().getEnemyData().getFieldCell());
+					}
+					//si tengo al hunter cerca...
+					else if(BattleField.getInstance().getHunterData().getInRange()) {
+							action = new Move() {
+								@Override
+								public ArrayList<FieldCell> move() {
+									ArrayList<FieldCell> miCamino = new ArrayList<>();
+									Random randomGenerator = new Random();
+									int x = randomGenerator.nextInt(ConfigurationManager.getInstance().getMapHeight()/2);
+									int y = randomGenerator.nextInt(ConfigurationManager.getInstance().getMapWidth()/2);
+									FieldCell destinoEscape = BattleField.getInstance().getFieldCell(x,y);
+									while(destinoEscape.getFieldCellType() == FieldCellType.BLOCKED) {
+										x = randomGenerator.nextInt(ConfigurationManager.getInstance().getMapHeight()/2);
+										y = randomGenerator.nextInt(ConfigurationManager.getInstance().getMapWidth()/2);
+										destinoEscape = BattleField.getInstance().getFieldCell(x,y);
+									}
+									ArrayList<FieldCell> rutaEscape = estrellita.findPath(origen, destinoEscape);
+									for (FieldCell n : rutaEscape) {
+										miCamino.add(n);
+									}/*
+									if(!caja.isEmpty()) {
+										ArrayList<FieldCell> rutaCaja = estrellita.findPath(origen, caja.get(0));
+										for (FieldCell n : rutaCaja) {
+											miCamino.add(n);
+										}
+									}*/
+									return miCamino;
+									//y hay cajas en el campo, la voy a buscar
+									
+								}
+							};
 					}
 					else { //lo va a buscar
 						// ESTA ES LA ACCION PARA REALIZAR EL MOVIMIENTO
