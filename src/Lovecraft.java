@@ -4,7 +4,7 @@ import ia.battle.core.WarriorManager;
 import ia.exceptions.RuleException;
 
 public class Lovecraft extends WarriorManager {
-	private int warriorsEnviados;
+	private int warriorsEnviados = 0;
 	
 	@Override
 	public String getName() {
@@ -16,8 +16,10 @@ public class Lovecraft extends WarriorManager {
 		int maxPoints = ConfigurationManager.getInstance().getMaxPointsPerWarrior();
 		Warrior w;
 		
-		
-		w = new Cthulhu("El Barbaro", 20, 20, 20, 20, 20);
+		if(warriorsEnviados % 2 == 0)
+				w = new Cthulhu("El tulaso", 20, 20, 20, 20, 20);
+		else
+				w = new Azathoth("El thothulo", 20, 20, 20, 20, 20);
 		
 		
 		warriorsEnviados++;
